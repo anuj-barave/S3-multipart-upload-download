@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <form id="form" enctype="multipart/form-data">
+      <input type="file" id="file" name="file" />
+      <button type="submit" onclick="uploadfile(event)">Upload file</button>
+    </form>
+
+    <script>
+      const uploadfile = (event) => {
+        event.preventDefault();
+        console.log("i am in event");
+        uploadrequest(event);
+      };
+
+      const uploadrequest = (e) => {
+        e.preventDefault();
+        const form = document.querySelector("#form");
+
+        const fileInput = document.getElementById("file"); // Corrected ID here
+        const file = fileInput.files[0];
+
+        console.log("i am in request script");
+
+        const formData = new FormData();
+        formData.append("file", file);
+
+        fetch("/upload", {
+          method: "POST",
+          body: formData,
+        })
+          .then((response) => {
+            alert("Response: uploaded successfully");
+          })
+          .catch((error) => {
+            alert("error uploading");
+          });
+      };
+    </script>
+  </body>
+</html>
